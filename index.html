@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+    - numpy
+    - matplotlib
+    - pandas
+    </py-env>
+    <style>
+        #plot {
+            border-style: dashed;
+            border-width: 5px;
+            border-color: #ff0000;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-size: 40px; font-weight: bolder; color: rgb(52, 83, 219);">py-script plt test</h1>
+    <div id="plot"></div>
+    <py-script output="plot">
+      import matplotlib.pyplot as plt
+      import numpy as np
+      import pandas as pd
 
-  <div>
-    <pyscript>
-      print("Hello World")
-    </pyscript>    
-  </div>
+      df = pd.DataFrame({"x":[1,2,3,5,6,7,9,10,11], "color":['r', 'r', 'r', 'b', 'b', 'b', 'r', 'r', 'r', ]})
+      x = df['x']
+      y = np.zeros(df.shape[0])
+      y2 = np.exp(-(((df['x'] - df['x'].mean())/np.var(df['x']))**2)/2)
 
+      fig, ax = plt.subplots(nrows=2, ncols=1)
+      
+      ax[0].scatter(x, y, color=df.color)
+      
+      ax[1].scatter(x, y2, color=df.color)
+      ax[1].hlines(xmin=df['x'].min(), xmax=df['x'].max(), y=0.98)
+      pyscript.write('plot', fig)
+    </py-script>
+</body>
 </html>
